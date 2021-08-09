@@ -70996,3 +70996,30 @@ void ogz_unpack_block_of_256_u64_words(uint64_t *restrict dst, const uint64_t *r
 }
 
 
+uint32_t ogz_get_highest_bit_in_block_of_u32_words(const uint32_t *begin, const uint32_t *end)
+{
+	const uint32_t *p;
+	uint32_t result;
+	uint32_t acc = 0;
+
+	for (p = begin; p != end; ++p)
+		acc |= *p;
+
+	result = acc == 0 ? 0 : (32U - (uint32_t)__builtin_clz(acc));
+
+	return result;
+}
+
+uint32_t ogz_get_highest_bit_in_block_of_u64_words(const uint64_t *begin, const uint64_t *end)
+{
+	const uint64_t *p;
+	uint32_t result;
+	uint64_t acc = 0;
+
+	for (p = begin; p != end; ++p)
+		acc |= *p;
+
+	result = acc == 0 ? 0 : (64U - (uint32_t)__builtin_clzll(acc));
+
+	return result;
+}
